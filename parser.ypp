@@ -29,8 +29,10 @@ int yyerror(const char* message);
 %right ASSIGN
 %left OR
 %left AND
-%left RELOP
-%left BINOP
+%left EQUALITY
+%left RELATIONAL
+%left SUB_AND_ADD
+%left DIV_AND_MUL
 %right NOT
 %left LPAREN RPAREN LBRACE RBRACE
 %right ELSE
@@ -55,7 +57,7 @@ Statement:
     | Type ID ASSIGN Exp SC {output::printProductionRule(6);}
     | ID ASSIGN Exp SC {output::printProductionRule(7);}
     | Call SC {output::printProductionRule(8);}
-    | RETURN Exp SC {output::printProductionRule(9);}
+    | RETURN SC {output::printProductionRule(9);}
     | IF LPAREN Exp RPAREN Statement {output::printProductionRule(10);}
     | IF LPAREN Exp RPAREN Statement ELSE Statement {output::printProductionRule(11);}
     | WHILE LPAREN Exp RPAREN Statement {output::printProductionRule(12);}
@@ -75,7 +77,8 @@ Type:
 
 Exp:
     LPAREN Exp RPAREN {output::printProductionRule(19);}
-    | Exp BINOP Exp {output::printProductionRule(20);}
+    | Exp SUB_AND_ADD Exp {output::printProductionRule(20);}
+    | Exp DIV_AND_MUL Exp {output::printProductionRule(20);}
     | ID {output::printProductionRule(21);} 
     | Call {output::printProductionRule(22);}
     | NUM {output::printProductionRule(23);}
@@ -86,7 +89,8 @@ Exp:
     | NOT Exp {output::printProductionRule(28);}
     | Exp AND Exp {output::printProductionRule(29);}
     | Exp OR Exp {output::printProductionRule(30);}
-    | Exp RELOP Exp {output::printProductionRule(31);}
+    | Exp EQUALITY Exp {output::printProductionRule(31);}
+    | Exp RELATIONAL Exp {output::printProductionRule(31);}
     | LPAREN Type RPAREN Exp {output::printProductionRule(32);}
     ;
 

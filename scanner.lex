@@ -13,8 +13,10 @@ void error();
 digit ([0-9])
 letter ([a-zA-Z])
 whitespace ([ \n\r\t])
-binop (\+|-|\/|\*)
-relop (==|!=|<|>|<=|>=)
+div_mul (\/|\*)
+sub_add (\-|\+)
+relational (<|>|<=|>=)
+equality (==|!=)
 number (0|[1-9][0-9]*)
 id ({letter}({digit}|{letter})*)
 string (\"([^\n\r\"\\]|\\[rnt"\\])+\")
@@ -45,8 +47,10 @@ comment (\/\/[^\r\n]*[\r|\n|\r\n]?)
 "{" { return LBRACE; }
 "}" { return RBRACE; }
 "=" { return ASSIGN; }
-{binop} { return BINOP; }
-{relop} { return RELOP;}
+{div_mul} { return DIV_AND_MUL; }
+{sub_add} {return SUB_AND_ADD;}
+{relational} {return RELATIONAL;}
+{equality} { return EQUALITY;}
 {comment} {}
 {whitespace} {}
 {id} {return ID; }
